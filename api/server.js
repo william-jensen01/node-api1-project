@@ -34,5 +34,20 @@ server.get('/api/users/:id', async (req, res) => {
         res.status(500).json({ error: err.message})
     }
 });
+server.post('/api/users', async (req, res) => {
+    const user = req.body;
+
+    if (!user.name || !user.bio) {
+        res.status(400).json({ message: "must include name and bio" })
+    }
+
+    try {
+        const newlyCreatedUser = await User.create(user)
+        console.log(newlyCreatedUser);
+        res.status(200).json(newlyCreatedUser)
+    } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+});
 
 module.exports = server;
