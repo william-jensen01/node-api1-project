@@ -62,5 +62,24 @@ server.delete('/api/users/:id', async (req, res) => {
         res.status(500).json({ errorMessage: "The user could not be removed"})
     }
 });
+server.put('/api/users/:id', async (req, res) => {
+    const id = req.params.id;
+    const changes = req.body;
+
+    if (!changes.name || !changes.bio) {
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+    } else {
+        try {
+            const updatedUser = await User.update(id, changes);
+            if (updatedUser) {
+                res.status(200).json(updatedUser)
+            } else {
+                res.status(404).json({ message: "The user with the specified ID does not exist." })
+            }
+        } catch (err) {
+            res.status(500).json({ errorMessage: "The user information could not be modified." })
+        }
+    }
+})
 
 module.exports = server;

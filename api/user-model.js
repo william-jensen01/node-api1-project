@@ -26,7 +26,7 @@ module.exports = {
     },
     update(id, changes) {
         // UPDATE users SET name = 'Foo', bio = 'random bio crap' WHERE id = 1;
-        const user = users.find(user => use.id === id)
+        const user = users.find(user => user.id === id)
         if(!user) return Promise.resolve(null)
 
         const updatedUser = { ...changes, id }
