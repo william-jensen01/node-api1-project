@@ -49,5 +49,18 @@ server.post('/api/users', async (req, res) => {
         res.status(500).json({ errorMessage: "There was an error while saving the user to the database" })
     }
 });
+server.delete('/api/users/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.delete(id);
+        if (user) {
+            res.status(201).json(user);
+        } else {
+            res.status(404). json({ message: "The user with the specified ID does not exist" })
+        }
+    } catch (err) {
+        res.status(500).json({ errorMessage: "The user could not be removed"})
+    }
+});
 
 module.exports = server;
